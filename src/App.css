@@ -1,95 +1,189 @@
+@import "https://fonts.googleapis.com/css?family=Share+Tech+Mono";
+@font-face {
+  font-family: "Digital";
+  src: url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.eot");
+  src: url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.eot?#iefix")
+      format("embedded-opentype"),
+    url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.woff2")
+      format("woff2"),
+    url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.woff")
+      format("woff"),
+    url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.ttf")
+      format("truetype"),
+    url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.svg#Digital-7")
+      format("svg");
+}
+
 * {
   box-sizing: border-box;
 }
+html {
+  width: 100%;
+  height: 100%;
+}
 
 body {
-  background-color: #333;
-}
-
-button {
-  all: unset;
-  cursor: pointer;
-  background-color: #eef;
-  text-align: center;
-}
-
-@keyframes button {
-  0% {
-    background-color: #eef;
-    box-shadow: 3px 3px 3px #111;
-  }
-  50% {
-    background-color: orange;
-  }
-  100% {
-    background-color: #eef;
-    box-shadow: 3px 3px 3px #111;
-  }
-}
-
-button:focus {
-  box-shadow: none;
-  animation-name: button;
-  animation-duration: 0.4s;
-  animation-fill: fowards;
+  margin: 0;
+  width: 100%;
+  height: 100%;
 }
 
 main {
-  height: 100vh;
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#border {
-  display: flex;
-  width: 50%;
-  background-color: #666;
-  border: 2px orange solid;
-  justify-content: space-around;
-  padding: 2em 0;
+p {
+  margin: 0;
 }
 
-.drumStyle {
-  width: 35%;
+#calculadora {
+  width: 18rem;
+  height: 24rem;
+  min-width: 18rem;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.5em;
+  grid: repeat(6, 1fr) / repeat(4, 1fr);
+  text-align: center;
+  align-items: center;
+  background-color: #111;
+  color: white;
+  padding: 0.3rem;
+  border: 0.1rem solid #555;
 }
 
-#controls {
-  width: 15%;
+.teclas {
+  font-family: roboto, sans-serif;
+  font-variant: small-caps;
+  font-size: 1.6rem;
+  display: grid;
+  align-items: center;
+  background-color: #444;
+  height: 100%;
+  border: 0.05rem solid #111;
+  font-family: Share Tech Mono, monospace;
+  cursor: pointer;
+}
+
+.teclas:hover {
+  transition: 0.1s linear;
+  border: 0.05rem solid #eee;
+  color: #111;
+  z-index: 3;
+}
+
+#display {
+  grid-column: 1/-1;
+  grid-row: 1;
+  justify-self: end;
+  margin-right: 2rem;
   display: grid;
   grid-template-columns: 1fr;
+  grid-template-rows: 1fr 2fr;
+  font-family: Digital, sans-serif;
+  font-size: 1.8rem;
+  align-items: center;
+  justify-items: end;
 }
 
-#controls h3 {
+#display-atual {
+  grid-row: 2;
+}
+
+#display-antigo {
+  grid-row: 1;
   font-size: 1.1rem;
-  height: 2rem;
-  background-color: #efe;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-.padStyle {
-  padding: 1.8em;
-  width: 20%;
-  height: 20%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 3px 3px 3px #111;
-  border-radius: 5px;
+#clear {
+  background-color: #823;
+  grid-column: 1/3;
+  grid-row: 2;
 }
 
-.Heater-1 {
-  background-color: red;
-  transition: linear 0.3s;
+#divide {
+  background-color: #777;
+  grid-column: 3;
+  grid-row: 2;
 }
 
-.Chord-1 {
-  background-color: green;
-  transition: linear 0.3s;
+#multiply {
+  background-color: #777;
+  grid-column: 4;
+  grid-row: 2;
+}
+
+#seven {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+#eight {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+#nine {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+#subtract {
+  background-color: #777;
+  grid-column: 4;
+  grid-row: 3;
+}
+
+#four {
+  grid-column: 1;
+  grid-row: 4;
+}
+
+#five {
+  grid-column: 2;
+  grid-row: 4;
+}
+
+#six {
+  grid-column: 3;
+  grid-row: 4;
+}
+
+#add {
+  background-color: #777;
+  grid-column: 4;
+  grid-row: 4;
+}
+
+#one {
+  grid-column: 1;
+  grid-row: 5;
+}
+
+#two {
+  grid-column: 2;
+  grid-row: 5;
+}
+
+#three {
+  grid-column: 3;
+  grid-row: 5;
+}
+
+#equals {
+  background-color: #258;
+  grid-column: 4;
+  grid-row: 5/7;
+}
+
+#zero {
+  grid-column: 1/3;
+  grid-row: 6;
+}
+
+#decimal {
+  grid-column: 3;
+  grid-row: 6;
 }

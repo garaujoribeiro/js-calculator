@@ -1,155 +1,171 @@
-import { useState, useEffect } from 'react';
-import DrumMachine from './DrumMachine';
-import Control from './Control';
+import React, { useState, useCallback, useEffect } from 'react';
 import './App.css';
+const App = () => (
+  <>
+    <Calculator />
+  </>
+);
 
-const App = () => {
-  const bankOne = [
-    {
-      keyCode: 81,
-      keyTrigger: 'Q',
-      id: 'Heater-1',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3',
-    },
-    {
-      keyCode: 87,
-      keyTrigger: 'W',
-      id: 'Heater-2',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3',
-    },
-    {
-      keyCode: 69,
-      keyTrigger: 'E',
-      id: 'Heater-3',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3',
-    },
-    {
-      keyCode: 65,
-      keyTrigger: 'A',
-      id: 'Heater-4',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3',
-    },
-    {
-      keyCode: 83,
-      keyTrigger: 'S',
-      id: 'Clap',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3',
-    },
-    {
-      keyCode: 68,
-      keyTrigger: 'D',
-      id: 'Open-HH',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3',
-    },
-    {
-      keyCode: 90,
-      keyTrigger: 'Z',
-      id: "Kick-n'-Hat",
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3',
-    },
-    {
-      keyCode: 88,
-      keyTrigger: 'X',
-      id: 'Kick',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3',
-    },
-    {
-      keyCode: 67,
-      keyTrigger: 'C',
-      id: 'Closed-HH',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3',
-    },
-  ];
-
-  const bankTwo = [
-    {
-      keyCode: 81,
-      keyTrigger: 'Q',
-      id: 'Chord-1',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/Chord_1.mp3',
-    },
-    {
-      keyCode: 87,
-      keyTrigger: 'W',
-      id: 'Chord-2',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/Chord_2.mp3',
-    },
-    {
-      keyCode: 69,
-      keyTrigger: 'E',
-      id: 'Chord-3',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/Chord_3.mp3',
-    },
-    {
-      keyCode: 65,
-      keyTrigger: 'A',
-      id: 'Shaker',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/Give_us_a_light.mp3',
-    },
-    {
-      keyCode: 83,
-      keyTrigger: 'S',
-      id: 'Open-HH',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/Dry_Ohh.mp3',
-    },
-    {
-      keyCode: 68,
-      keyTrigger: 'D',
-      id: 'Closed-HH',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/Bld_H1.mp3',
-    },
-    {
-      keyCode: 90,
-      keyTrigger: 'Z',
-      id: 'Punchy-Kick',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/punchy_kick_1.mp3',
-    },
-    {
-      keyCode: 88,
-      keyTrigger: 'X',
-      id: 'Side-Stick',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/side_stick_1.mp3',
-    },
-    {
-      keyCode: 67,
-      keyTrigger: 'C',
-      id: 'Snare',
-      url: 'https://s3.amazonaws.com/freecodecamp/drums/Brk_Snr.mp3',
-    },
-  ];
-
-  const [bank, setBank] = useState(bankOne);
-  const [lastKey, setLastKey] = useState('');
-  const [volume, setVolume] = useState(50);
-
+const Calculator = () => {
+  // Estados da minha caculadora
+  const [primeiro, setPrimeiro] = useState('');
+  const [segundo, setSegundo] = useState('');
+  const [fase, setFase] = useState(1);
+  const [operacao, setOperacao] = useState('');
+  const [resultado, setResultado] = useState('');
+  const [negativo, setNegativo] = useState({});
   useEffect(() => {
-    const handleType = (event) => {
-      let button = document.getElementById(event.key);
-      let pad = document.getElementById(button.name);
-      button.focus();
-      if (!pad.ended) pad.load();
-      pad.play();
-      bank.forEach((item) => {
-        if (pad.id === item.keyCode) setLastKey(item.id);
-      });
-    };
-    window.addEventListener('keydown', handleType);
-    return () => {
-      window.removeEventListener('keydown', handleType);
-    };
-  }, [bank]);
+    if (resultado) setPrimeiro(resultado);
+  }, [resultado, primeiro]);
 
+  // função para operar os números
+
+  const operar = useCallback((numA, numB, operador) => {
+    switch (operador) {
+      case '+':
+        console.log(numA, numB);
+        return numA + numB;
+      case '-':
+        return numA - numB;
+      case 'x':
+        return numA * numB;
+      case '/':
+        return numA / numB;
+    }
+  }, []);
+
+  // função para manusear as teclas de operação
+  const handleOperacao = ({ target }) => {
+    let operador = target.innerHTML;
+    if (operador === 'ac') {
+      setPrimeiro('');
+      setSegundo('');
+      setFase(1);
+      setOperacao('');
+      setResultado('');
+    } else if (operador === '.') {
+      if (operacao === '.') return null;
+      fase === 1
+        ? setPrimeiro(
+            !primeiro.split('').includes('.')
+              ? primeiro
+                ? primeiro + operador
+                : 0 + operador
+              : primeiro,
+          )
+        : setSegundo(segundo + operador);
+    } else if (operador === '=') {
+      if (fase === 1 || !segundo || !operacao || operacao === '.') {
+        return null;
+      }
+      if (negativo) {
+        setResultado(operar(Number(primeiro), Number(segundo) * -1, operacao));
+        setSegundo('');
+        setOperacao('');
+        setFase(1);
+        setNegativo(false);
+      } else if (!negativo) {
+        setResultado(operar(Number(primeiro), Number(segundo), operacao));
+        setSegundo('');
+        setOperacao('');
+        setFase(1);
+      }
+    } else {
+      if (fase === 1) {
+        setFase(2);
+        setOperacao(operador);
+      } else if (fase === 2) {
+        if (!segundo) {
+          if (operador === '-') {
+            console.log('caquinha');
+            setNegativo(true);
+            setSegundo('');
+          } else {
+            setNegativo(false);
+            console.log('semcaquinha');
+            setOperacao(operador);
+          }
+        } else {
+          setResultado(operar(Number(primeiro), Number(segundo), operacao));
+          setSegundo('');
+          setOperacao(operador);
+        }
+      }
+    }
+  };
+  // função para lidar com os numeros da calculadora
+  const handleNumeros = ({ target }) => {
+    let numero = target.innerHTML;
+    if (
+      (numero === '0' && primeiro === '0') ||
+      (numero === '0' && segundo === '0')
+    ) {
+      return null;
+    } else if (!!resultado && fase === 1) {
+      setResultado('');
+      setPrimeiro(numero);
+    } else if (fase === 1) {
+      setPrimeiro(primeiro ? primeiro + numero : numero);
+    } else if (fase === 2) {
+      setSegundo(segundo ? segundo + numero : numero);
+    }
+  };
+
+  const numeros = [
+    { id: 'zero', numero: '0' },
+    { id: 'one', numero: '1' },
+    { id: 'two', numero: '2' },
+    { id: 'three', numero: '3' },
+    { id: 'four', numero: '4' },
+    { id: 'five', numero: '5' },
+    { id: 'six', numero: '6' },
+    { id: 'seven', numero: '7' },
+    { id: 'eight', numero: '8' },
+    { id: 'nine', numero: '9' },
+  ];
+  const operacoesTeclas = [
+    { id: 'clear', tecla: 'ac' },
+    { id: 'divide', tecla: '/' },
+    { id: 'multiply', tecla: 'x' },
+    { id: 'subtract', tecla: '-' },
+    { id: 'add', tecla: '+' },
+    { id: 'equals', tecla: '=' },
+    { id: 'decimal', tecla: '.' },
+  ];
   return (
     <>
-      <div id="border">
-        <DrumMachine bank={[bank, setBank]} setLastKey={setLastKey} />
-        <Control
-          bankOne={bankOne}
-          bankTwo={bankTwo}
-          bank={[bank, setBank]}
-          lastKey={[lastKey, setLastKey]}
-          volume={[volume, setVolume]}
-        />
+      <div id="calculadora">
+        <div id="display">
+          <p id="display-atual">
+            {primeiro
+              ? segundo
+                ? segundo
+                : primeiro
+              : resultado
+              ? resultado
+              : '0'}
+          </p>
+        </div>
+        {numeros.map((item, idx) => (
+          <p
+            key={idx}
+            onClick={handleNumeros}
+            className={'teclas'}
+            id={item.id}
+          >
+            {item.numero}
+          </p>
+        ))}
+        {operacoesTeclas.map((item, idx) => (
+          <p
+            key={idx}
+            onClick={handleOperacao}
+            className={'teclas'}
+            id={item.id}
+          >
+            {item.tecla}
+          </p>
+        ))}
       </div>
     </>
   );
